@@ -12,8 +12,14 @@ class Sql_handle():
     需要传入文件路径实例化
     '''
     # global file_path
-    def __init__(self,file_path) -> None:
-        self.file_path = file_path
+    def __init__(self,file_path:str) -> None:
+        self.file_path:str = file_path
+        try:
+            num = self.file_path.rindex('\\')
+        except:
+            num = self.file_path.rindex('/')
+        self.pure_path = self.file_path[:num]
+        self.file_name = self.file_path[num+1:]
     def write_file(x):
         def _write_file(self,data):
             '''
@@ -48,22 +54,19 @@ class Sql_handle():
             with open(f'{self.file_path}','r') as f:
                 pass
         except FileNotFoundError:
-            try:
-                os.mkdir('data')
-            except:
-                pass
-            a = sqlite3.connect(f'{self.file_path}')
-            b = a.cursor()
-            self.data2 = deepcopy(self.data)
-            keys = list(self.data2.keys())
-            for listname in keys:
-                for key in self.data2[listname]:
-                    self.data2[listname][key] = key + self.get_sq_type(self.data2[listname][key])
-                value = str(tuple(self.data2[listname].values())).replace("'","")
-                b.execute(f'create table {listname}{value}')
-            b.close()
-            a.commit()
-            a.close()
+            os.makedirs(self.pure_path,exist_ok=True)
+        a = sqlite3.connect(f'{self.file_path}')
+        b = a.cursor()
+        self.data2 = deepcopy(self.data)
+        keys = list(self.data2.keys())
+        for listname in keys:
+            for key in self.data2[listname]:
+                self.data2[listname][key] = key + self.get_sq_type(self.data2[listname][key])
+            value = str(tuple(self.data2[listname].values())).replace("'","")
+            b.execute(f'create table if not exist {listname}{value}')
+        b.close()
+        a.commit()
+        a.close()
 
     def get_sq_type(self):
         if type(self.data) == str:
