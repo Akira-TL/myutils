@@ -2,7 +2,7 @@ import json
 from types import NoneType
 from copy import deepcopy
 import os,sqlite3
-from utils import debug
+from .utils import _debug
 
 
 
@@ -44,7 +44,7 @@ class Sql_handle():
             try:
                 b.execute(f'insert into {listname}{keys} values{values}')
             except:
-                debug(f'传入数据错误,数据写入失败! -> {self.data[listname]}',__name__)
+                _debug(f'传入数据错误,数据写入失败! -> {self.data[listname]}',__name__)
 
     def check_file(self):
         '''

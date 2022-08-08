@@ -10,39 +10,6 @@ from nonebot.log import logger
 from numpy import blackman
 
 pluginname = __name__
-
-class Log():
-    '''
-    @说明:
-        对官方log方法的改写,将文件地址写入log消息方便查看日志
-    '''
-    def __init__(self,name:str) -> None:
-        self.name = name
-    def debug(self,text:str):        
-        if __name__ == '__main__':
-            print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.HEADER}DEBUG{Text_colors.SAMPLE}] | {str(text)}')
-        else:
-            logger.debug('\033[95m' + self.name[12:] + '\033[0m | ' + str(text))
-    def warning(self,text:str):        
-        if __name__ == '__main__':
-            print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.WARNING}WARNING{Text_colors.SAMPLE}] | {str(text)}')
-        else:
-            logger.warning('\033[95m' + self.name[12:] + '\033[0m | ' + str(text))
-    def info(self,text:str):        
-        if __name__ == '__main__':
-            print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.Light.WHITE}INFO{Text_colors.SAMPLE}] | {str(text)}')
-        else:
-            logger.info('\033[95m' + self.name[12:] + '\033[0m | ' + str(text))
-    def success(self,text:str):        
-        if __name__ == '__main__':
-            print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.OKGREEN}SUCCESS{Text_colors.SAMPLE}] | {str(text)}')
-        else:
-            logger.success('\033[95m' + self.name[12:] + '\033[0m | ' + str(text))
-    def error(self,text:str):        
-        if __name__ == '__main__':
-            print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.ERROR}ERROR{Text_colors.SAMPLE}] | {str(text)}')
-        else:
-            logger.error('\033[95m' + self.name[12:] + '\033[0m | ' + str(text))
 class Text_colors:
     HEADER = '\033[95m'
     '''紫色'''
@@ -124,6 +91,50 @@ class Text_colors:
         ELIMINATE = '\033[8m'
         BANG = '\033[9m'
         TWO_UNDERLINE = '\033[21m' 
+
+class Log:
+    '''
+    @说明:
+        对官方log方法的改写,将文件地址写入log消息方便查看日志
+    '''
+    def __init__(self,name:str) -> None:
+        self.name = name
+    def debug(self,*text:str):     
+        for i in text:          
+            if __name__ == '__main__':
+                print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.HEADER}DEBUG{Text_colors.SAMPLE}] | {str(i)}')
+            else:
+                logger.debug('\033[95m' + self.name[12:] + '\033[0m | ' + str(i))
+    def warning(self,*text:str):
+        for i in text:        
+            if __name__ == '__main__':
+                print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.WARNING}WARNING{Text_colors.SAMPLE}] | {str(i)}')
+            else:
+                logger.warning('\033[95m' + self.name[12:] + '\033[0m | ' + str(i))
+    def info(self,*text:str): 
+        for i in text:              
+            if __name__ == '__main__':
+                print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.Light.WHITE}INFO{Text_colors.SAMPLE}] | {str(i)}')
+            else:
+                logger.info('\033[95m' + self.name[12:] + '\033[0m | ' + str(i))
+    def success(self,*text:str): 
+        for i in text:              
+            if __name__ == '__main__':
+                print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.OKGREEN}SUCCESS{Text_colors.SAMPLE}] | {str(i)}')
+            else:
+                logger.success('\033[95m' + self.name[12:] + '\033[0m | ' + str(i))
+    def error(self,*text:str):     
+        for i in text:          
+            if __name__ == '__main__':
+                print(f'{Text_colors.OKGREEN}' + time.strftime('%m-%d %H:%M:%S ',time.localtime()) + f'{Text_colors.SAMPLE}[{Text_colors.ERROR}ERROR{Text_colors.SAMPLE}] | {str(i)}')
+            else:
+                logger.error('\033[95m' + self.name[12:] + '\033[0m | ' + str(i))
+__log = Log(pluginname)
+_debug = __log.debug
+_warning = __log.warning
+_info = __log.warning
+_success = __log.success
+_error = __log.error
 
 
 
